@@ -1,12 +1,16 @@
-%% Find trim conditions with given initial conditions
+clc
+clear all
+close all
+
+% Find trim conditions with given initial conditions
 V = 250;
 h = 10000;
 
-[theta0, delta_e, delta_thr] = findTrim(V, h);
+[theta0, delta_e, T] = findTrim(V, h)
 
 
 %% Evaluate stability of trim conditions
-stability = stabAnalysis(V, h, theta0, delta_e, delta_thr);
+stability = stabAnalysis(V, h, theta0, delta_e, T)
 
 
 %% Simulate flight dynamics
@@ -19,8 +23,8 @@ W0 = V*sin(theta0);
 % format: s =[x  z  u  w  theta  q ] 
 s0 = [0; h; U0; W0; theta0; 0;]; 
 t = 0:0.1:10000;
-u_in  = 0.7;
-[tt, xx1] = ode45(@(t,x)FW_longitudinal_dynamics(t, x), t, s0);
+f = [delta_e; T];
+[tt, xx1] = ode45(@(t,x)FW_longitudinal_dynamics(t, x,f), t, s0);
 
 
 %% Plotting
