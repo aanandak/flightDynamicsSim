@@ -1,4 +1,4 @@
-clc
+% clc
 clear all
 close all
 
@@ -6,16 +6,15 @@ close all
 V = 250;
 h = 10000;
 
-[theta0, delta_e, T] = findTrim(V, h)
+[theta0, delta_e, T] = findTrim(V, h);
 
 
 %% Evaluate stability of trim conditions
-stability = stabAnalysis(V, h, theta0, delta_e, T)
+stability = stabAnalysis(V, h, theta0, delta_e, T);
 
 
 %% Simulate flight dynamics
 
-% theta = 6.177426627134937e-02;
 U0 = V*cos(theta0);
 W0 = V*sin(theta0);
 
@@ -24,7 +23,7 @@ W0 = V*sin(theta0);
 s0 = [0; h; U0; W0; theta0; 0;]; 
 t = 0:0.1:10000;
 f = [delta_e; T];
-[tt, xx1] = ode45(@(t,x)FW_longitudinal_dynamics(t, x,f), t, s0);
+[tt, xx1] = ode45(@(t,x)FW_longitudinal_dynamics(t, x, f), t, s0);
 
 
 %% Plotting

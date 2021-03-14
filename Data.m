@@ -1,4 +1,5 @@
 % System Details
+h = 10000;
 Cla = 5.9598;
 Cl0 = 0.2301;
 Clih = 0.8299;
@@ -15,11 +16,11 @@ ARw = 10.03;
 GW = 2500000;
 rhosl = 1.225;
 lambda = (1-22.556e-6*h);
+sigma = lambda^4.2561;
 rho = rhosl*lambda^4.2561;
 C1 = 0.5*rho*Sw;
+Cw = 7.49;
 
-Cw = 7.49;                  % wing chord length
-
-g = 9.81;               % Grav accel
-Iyy = 30513547.0;       % kg-m2
-m = GW/g;               % Mass, kg
+g = 9.81;
+Iyy = 30513547.0;
+m = GW/g;
