@@ -8,7 +8,7 @@ function sdot = FW_longitudinal_dynamics(~, s, f)
     q = s(6);
 
     Data;
-    qp = 0.5*rho*(u^2+w^2);           % dynamic pressure
+    qp = 0.5*rho*(u^2+w^2);
 
     alpha = theta; 
     ih = theta; 

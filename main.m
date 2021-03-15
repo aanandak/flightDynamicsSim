@@ -1,6 +1,6 @@
 % clc
-clear all
-close all
+% clear all
+% close all
 
 % Find trim conditions with given initial conditions
 V = 250;
