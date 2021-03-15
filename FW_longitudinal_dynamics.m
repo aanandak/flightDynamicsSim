@@ -6,7 +6,9 @@ function sdot = FW_longitudinal_dynamics(~, s, f)
     w = s(4);
     theta = s(5);
     q = s(6);
-
+    gamma = s(7);
+    
+    
     h = 10000;
     % Lift, drag, moment coef components
     Data;
@@ -50,7 +52,12 @@ function sdot = FW_longitudinal_dynamics(~, s, f)
 %     X = -D*cos(alpha) - L*sin(alpha) + Thr*cos(alpha);
 %     Z = D*sin(alpha) - L*cos(alpha) - Thr*sin(theta); % positive downwards
     
-    X = -D*cos(alpha) + L*sin(alpha) + f(2);
+    zref = 10000;
+    Ki = -0.0000;
+    z_error = zref- z;
+    thrust = f(2) - Ki*gamma;
+
+    X = -D*cos(alpha) + L*sin(alpha) + thrust;
     Z = -D*sin(alpha) - L*cos(alpha);% - Thr*sin(t); % This extra term made no difference
 
     
@@ -61,7 +68,8 @@ function sdot = FW_longitudinal_dynamics(~, s, f)
     thetadot = q;
     qdot = Moment/ Iyy;
     
-   
+    % gamma = int z => gammadot = z;
+    gammadot = z_error;
+    sdot = [xdot; zdot; udot; wdot; thetadot; qdot; gammadot];
     
-    sdot = [xdot; zdot; udot; wdot; thetadot; qdot];
 end

@@ -6,18 +6,18 @@ format longe
 V = 250;
 h = 10000;
 
-[theta0, delta_e, T] = findTrim(V, h);
+[theta0, delta_e, T] = findTrim(V, h)
 U0 = V*cos(theta0);
 W0 = V*sin(theta0);
 s0 = [0; h; U0; W0; theta0; 0;0]; 
-f = [delta_e; T]
+f = [delta_e; T];
 FW_longitudinal_dynamics(0, s0,f)
 
-options = optimoptions('fsolve','Display','none','FunctionTolerance',1e-14,'StepTolerance',1e-14);
-P = [zeros(6,1) eye(6) ];
-myfun = @(x) P*FW_longitudinal_dynamics(0, s0,x);
-f = fsolve(myfun,0*f,options)
-P*FW_longitudinal_dynamics(0, s0,f)
+
+P = [zeros(6,1) eye(6) ]
+myfun = @(x) FW_longitudinal_dynamics(0, s0,x);
+x = fsolve(myfun,f)
+FW_longitudinal_dynamics(0, s0,x)
 
 
 
@@ -26,7 +26,7 @@ P*FW_longitudinal_dynamics(0, s0,f)
 
 
 %% Evaluate stability of trim conditions
-stability = stabAnalysis(V, h, theta0, f(1), f(2))
+stability = stabAnalysis(V, h, theta0, delta_e, T)
 
 
 %% Simulate flight dynamics
@@ -38,7 +38,7 @@ W0 = V*sin(theta0);
 
 % format: s =[x  z  u  w  theta  q ] 
 s0 = [0; h; U0; W0; theta0; 0;0]; 
-t = 0:0.1:1000;
+t = 0:0.1:5000;
 f = [delta_e; T];
 [tt, xx1] = ode45(@(t,x)FW_longitudinal_dynamics(t, x,f), t, s0);
 
