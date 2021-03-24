@@ -23,14 +23,7 @@ W0 = V*sin(theta0);
 s0 = [0; h; U0; W0; theta0; 0; 0; 0]; 
 t = 0:0.1:5000;
 
-% TECS PID
-error_T = 0;
-error_L = 0;
-count = 0;
-h_dot_old = 0;
-v_dot_old = 0;
 
-%; error_T; error_L; h_dot_old; v_dot_old
 f = [delta_e; T];
 [tt, xx1] = ode45(@(t,x)FW_longitudinal_dynamics(t, x, f), t, s0);
 
