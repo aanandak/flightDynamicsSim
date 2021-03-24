@@ -1,6 +1,6 @@
 % clc
-clear all
-close all
+% clear all
+% close all
 
 % Find trim conditions with given initial conditions
 V = 250;
@@ -19,9 +19,18 @@ U0 = V*cos(theta0);
 W0 = V*sin(theta0);
 
 
-% format: s =[x  z  u  w  theta  q ] 
-s0 = [0; h; U0; W0; theta0; 0;]; 
-t = 0:0.1:10000;
+%s = [x  z  u   w   theta   q  eta1 eta2]  format
+s0 = [0; h; U0; W0; theta0; 0; 0; 0]; 
+t = 0:0.1:5000;
+
+% TECS PID
+error_T = 0;
+error_L = 0;
+count = 0;
+h_dot_old = 0;
+v_dot_old = 0;
+
+%; error_T; error_L; h_dot_old; v_dot_old
 f = [delta_e; T];
 [tt, xx1] = ode45(@(t,x)FW_longitudinal_dynamics(t, x, f), t, s0);
 
