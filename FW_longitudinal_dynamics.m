@@ -31,16 +31,16 @@ function sdot = FW_longitudinal_dynamics(~, s, f)
     eta2 = s(8);
     
     % TECS PID Constants
-    KV = 0.05;
-    KP = -0.05;
-    KD = 0.05;
+    KV = 0.3;
+    KP = -0.005;
+    KD = 1;
     
-    KTP = 0.001;
-    KTI = 0;
-   
-    KEP = 0.01;
-    KEI = 0;
-    
+    KTP = 0.3;
+    KTI = 0.05;
+  
+    KEP = 0.025;
+    KEI = 0.005;
+
 
     % Eq. 111
     d_thr_bar = (KTP/(KTP+1))*(KV*V_tilda/g + sin(gamma_tilda) + sin(gamma))...
@@ -50,11 +50,10 @@ function sdot = FW_longitudinal_dynamics(~, s, f)
     d_elv_bar = KP*theta + KD*q +...
         KEP*(KV*V_tilda/g - sin(gamma_tilda) + sin(gamma) - d_thr_bar)...
         + KEI*eta2;
-    
+
     
     delta_ec = delta_ec + d_elv_bar;
     delta_thr = f(2) + d_thr_bar;
-    
 
     
     % Dynamics Equations
