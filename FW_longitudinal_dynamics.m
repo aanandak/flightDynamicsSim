@@ -6,6 +6,8 @@ function sdot = FW_longitudinal_dynamics(~, s, f)
     w = s(4);
     theta = s(5);
     q = s(6);
+    eta1 = s(7);
+    eta2 = s(8);
 
     Data;
     qp = 0.5*rho*(u^2+w^2);
@@ -18,28 +20,27 @@ function sdot = FW_longitudinal_dynamics(~, s, f)
     
    
     % TECS params
-    v_sp = 250;
-    h_sp = 10000;
-    gamma_sp = 0;
-    gamma_tilda = gamma - gamma_sp;
-
-    v = sqrt(u^2+w^2); 
-    V_tilda = (v - v_sp);
+    h_sp = f(3);
     h = z;
     
-    eta1 = s(7);
-    eta2 = s(8);
+    v_sp = f(4);
+    v = sqrt(u^2+w^2); 
+    V_tilda = (v - v_sp);
+    
+    gamma_sp = 0.0001*(h_sp - h);
+    gamma_tilda = gamma - gamma_sp;
+    
     
     % TECS PID Constants
-    KV = 0.3;
-    KP = -0.005;
+    KV = 0.001;
+    KP = -0.001;
     KD = 1;
     
     KTP = 0.3;
-    KTI = 0.05;
+    KTI = 0;
   
-    KEP = 0.025;
-    KEI = 0.005;
+    KEP = -1.5;
+    KEI = 0;
 
 
     % Eq. 111
