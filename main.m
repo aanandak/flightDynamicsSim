@@ -9,6 +9,13 @@ h = 10000;
 [theta0, delta_e, T] = findTrim(V, h);
 
 
+% Trim at desired conditions
+
+V2 = 260;
+h2 = 12000;
+
+[theta02, delta_e2, T2] = findTrim(V2, h2);
+
 %% Evaluate stability of trim conditions
 % stability = stabAnalysis(V, h, theta0, delta_e, T);
 
@@ -17,19 +24,26 @@ h = 10000;
 
 U0 = V*cos(theta0);
 W0 = V*sin(theta0);
-h_sp = 12000;
-v_sp = 250;
 
-%s = [x  z  u   w   theta   q  eta1 eta2]  format
-s0 = [0; h; U0; W0; theta0; 0; 0; 0]; 
-t = 0:0.1:5000;
+h_sp = 15000;
+v_sp = 280;
+
+
+% TECS PID
+error_T = 0;
+error_L = 0;
+
+
+% format: s =[x  z  u  w  theta  q ] 
+s0 = [0; h; U0; W0; theta0; 0; error_T; error_L]; 
+t = 0:2500;
+
 
 f = [delta_e; T; h_sp; v_sp];
 [tt, xx1] = ode45(@(t,x)FW_longitudinal_dynamics(t, x, f), t, s0);
 
 
 %% Plotting
-figure(1);
 subplot(4,2,1)
 plot(tt, xx1(:, 1));
 title('x-dist');
@@ -56,11 +70,11 @@ title('q');
 
 subplot(4,2,7)
 plot(tt, xx1(:, 7));
-title('\eta1');
+title('Thrust Integral');
 
 subplot(4,2,8)
 plot(tt, xx1(:, 8));
-title('\eta2');
+title('Elevator Integral');
 
 for pp = 1:8
     subplot(4,2,pp)
@@ -69,3 +83,5 @@ for pp = 1:8
 end
 
 
+final_v = sqrt(xx1(end, 3)^2 + xx1(end, 4)^2)
+final_h = xx1(end, 2)
