@@ -11,7 +11,7 @@ x = fzero(myfun, t0);
 theta = x;
 delta_e = -(Cm0 + (Cma+Cmih)*x)/Cmde;
 alpha = theta;
-ih = alpha;
+ih = theta;
 
 cL = Cl0 + Cla*alpha + Clih*ih + Clde*delta_e;
 cDa = 2*cL*Cla/(pi *ARw*e);

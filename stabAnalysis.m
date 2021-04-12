@@ -2,8 +2,8 @@ function stability = stabAnalysis(V, h, theta0, delta_ec, delta_thr)
     syms z u w t q;
     Data;
 
-    alpha = atan2(w, u); 
-    ih = alpha;
+    alpha = t; 
+    ih = t;
     qp = 0.5*rho*(u^2+w^2);   
     
     % Dynamics Equations

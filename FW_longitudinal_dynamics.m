@@ -18,18 +18,14 @@ function sdot = FW_longitudinal_dynamics(~, s, f)
     
 
     % TECS params
-%     KV = 0.5;
     h_sp = f(3);
     v_sp = f(4);
    
     v = sqrt(u^2+w^2);
     h = z;
     
-%     v_dot = KV* (v_sp - v);
-v_dot = 0;
     gamma_sp = 0.0001*(h_sp - h);
-
-    
+   
     c(1) = m;
     c(2) = v_sp;
     c(3) = h_sp;
@@ -37,17 +33,14 @@ v_dot = 0;
     c(5) = v;
     c(6) = h;
     c(7) = gamma;
-    c(8) = v_dot;
-    c(9) = s(7);
-    c(10) = s(8);
+    c(8) = s(7);
+    c(9) = s(8);
     
-
     [d_thr, d_elv, error_T_dot, error_L_dot] = TECS_Controller(c);
     
     delta_ec = delta_ec + d_elv;
     delta_thr = delta_thr + d_thr;
-    
-    
+       
     
     % Dynamics Equations
     cL = Cl0 + Cla*alpha + Clih*ih + Clde*delta_ec;

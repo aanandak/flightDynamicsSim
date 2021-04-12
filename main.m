@@ -9,13 +9,6 @@ h = 10000;
 [theta0, delta_e, T] = findTrim(V, h);
 
 
-% Trim at desired conditions
-
-V2 = 260;
-h2 = 12000;
-
-[theta02, delta_e2, T2] = findTrim(V2, h2);
-
 %% Evaluate stability of trim conditions
 % stability = stabAnalysis(V, h, theta0, delta_e, T);
 
@@ -25,19 +18,16 @@ h2 = 12000;
 U0 = V*cos(theta0);
 W0 = V*sin(theta0);
 
-h_sp = 15000;
+h_sp = 12000;
 v_sp = 280;
-
 
 % TECS PID
 error_T = 0;
 error_L = 0;
 
-
 % format: s =[x  z  u  w  theta  q ] 
 s0 = [0; h; U0; W0; theta0; 0; error_T; error_L]; 
-t = 0:2500;
-
+t = 0:0.1:1500;
 
 f = [delta_e; T; h_sp; v_sp];
 [tt, xx1] = ode45(@(t,x)FW_longitudinal_dynamics(t, x, f), t, s0);
@@ -76,6 +66,7 @@ subplot(4,2,8)
 plot(tt, xx1(:, 8));
 title('Elevator Integral');
 
+
 for pp = 1:8
     subplot(4,2,pp)
     hold on
@@ -83,5 +74,13 @@ for pp = 1:8
 end
 
 
-final_v = sqrt(xx1(end, 3)^2 + xx1(end, 4)^2)
-final_h = xx1(end, 2)
+final_v = sqrt(xx1(end, 3)^2 + xx1(end, 4)^2);
+final_h = xx1(end, 2);
+fprintf('Initial : %.0fm, %.0fm/s\n', h, V);
+fprintf('Setpoint: %.0fm, %.0fm/s\n', h_sp, v_sp);
+fprintf('Final   : %.0fm, %.0fm/s\n\n', final_h, final_v);
+
+
+
+
+
